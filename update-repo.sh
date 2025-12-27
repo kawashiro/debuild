@@ -6,7 +6,7 @@ SCRIPT_PATH="$(realpath "${BASH_SOURCE[0]}")"
 SCRIPT_DIR="${SCRIPT_PATH%/*}"
 . "$SCRIPT_DIR/debuild.conf"
 
-cd "$REPO_DIR"
+cd "$APT_REPO_DIR"
 
 dpkg-scanpackages -m . > Packages
 gzip -9c < Packages > Packages.gz

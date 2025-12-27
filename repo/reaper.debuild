@@ -16,8 +16,8 @@ reaper__build() {
 }
 
 reaper__version() {
-    apt-get update
-    apt-get install -y curl
+    apt-get update >/dev/null 2>&1
+    apt-get install -y curl >/dev/null 2>&1
     url=$(__reaper_get_url)
     ver=${url##*reaper}
     ver=${ver%%_*}

@@ -1,4 +1,4 @@
 # Provide the path to your local repository directory and GPG key for signing the packages.
 
-export REPO_DIR=""
+export APT_REPO_DIR=""
 export GPG_KEY=""

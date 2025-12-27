@@ -63,7 +63,6 @@ for debuild_file in "${debuild_files[@]}"; do
 
     export version=$(cat "$source_dir/VERSION")
     ready_deb_file="$done_dir/${package_name}_${version}_amd64.deb"
-    echo $ready_deb_file
 
     if [ -f "$ready_deb_file" ]; then
         status "[$n/${#debuild_files[@]}] Copying ready .deb for $package_name ..."
@@ -92,7 +91,7 @@ done
 
 status "Copying packages to the repository ..."
 cd "$WORKING_DIR/out"
-rsync -avzh --no-g --progress ./* "$REPO_DIR/"
+rsync -avzh --no-g --progress ./* "$APT_REPO_DIR/"
 cd "$PWD_0"
 
 status "Updating repository metadata ..."
