@@ -1,0 +1,29 @@
+reaper__get-sources() {
+    url=$(__reaper_get_url)
+    curl -LO "$url"
+    tar xJf *.tar.xz
+}
+
+reaper__build() {
+    destination="$1"
+    cd reaper_linux_x86_64
+    ./install-reaper.sh --install /opt --usr-local-bin-symlink
+    cd ..
+    mkdir -p "$destination/opt"
+    mkdir -p "$destination/usr/local/bin"
+    cp -r /opt/REAPER "$destination/opt/"
+    cp /usr/local/bin/reaper "$destination/usr/local/bin/"
+}
+
+reaper__version() {
+    apt-get update
+    apt-get install -y curl
+    url=$(__reaper_get_url)
+    ver=${url##*reaper}
+    ver=${ver%%_*}
+    echo "${ver:0:1}.${ver:1}"
+}
+
+__reaper_get_url() {
+    curl -s https://www.reaper.fm/download.php?from_reaper=1 | grep .tar.xz | head -n1 | awk -F'"' '{ print "https://www.reaper.fm/" $2 }'
+}

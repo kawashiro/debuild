@@ -1,0 +1,18 @@
+IDEA__VERSION="2025.3.1"
+
+idea__get-sources() {
+    curl -OL "https://download.jetbrains.com/idea/idea-$IDEA__VERSION.tar.gz"
+}
+
+idea__build() {
+    destination="$1"
+    cd /opt
+    tar -xzf /src/idea-"$IDEA__VERSION".tar.gz
+    mv idea-* idea
+    mkdir -p "$destination/opt"
+    cp -r /opt/idea "$destination/opt/"
+}
+
+idea__version() {
+    echo "$IDEA__VERSION"
+}

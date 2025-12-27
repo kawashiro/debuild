@@ -1,0 +1,13 @@
+tixati__get-sources() {
+    download_url=$(curl -s https://tixati.com/linux | grep amd64.deb | awk -F'"' '{ print $12 }' | sed -e 's/\.asc$//')
+    curl -LO "$download_url"
+}
+
+tixati__build() {
+    destination="$1"
+    cp *.deb "$destination/"
+}
+
+tixati__version() {
+    echo *.deb | awk -F'_' '{ print $2 }'
+}

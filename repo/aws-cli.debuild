@@ -1,0 +1,15 @@
+aws-cli__get-sources() {
+    curl -O https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip
+    unzip ./awscli-exe-linux-x86_64.zip
+}
+
+aws-cli__build() {
+    destination="$1"
+    ./aws/install --bin-dir "/opt/aws/bin" --install-dir "/opt/aws"
+    mkdir -p "$destination/opt"
+    cp -r /opt/aws "$destination/opt/"
+}
+
+aws-cli__version() {
+    /opt/aws/bin/aws --version | awk '{ print $1 }' | sed -e 's/.*\///'
+}

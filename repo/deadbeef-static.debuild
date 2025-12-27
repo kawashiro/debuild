@@ -1,0 +1,14 @@
+deadbeef-static__get-sources() {
+    download_url=$(curl -s https://deadbeef.sourceforge.io/download.html | grep 'universal deb package amd64' | awk -F'"' '{ print $2 }')
+    out_file_name=$(echo "$download_url" | awk -F'/' '{ print $10 }')
+    curl -L -o "$out_file_name" "$download_url"
+}
+
+deadbeef-static__build() {
+    destination="$1"
+    cp *.deb "$destination/"
+}
+
+deadbeef-static__version() {
+    echo *.deb | awk -F'_' '{ print $2 }'
+}

@@ -1,0 +1,12 @@
+Package: aws-cli
+Version: ${version}
+Architecture: amd64
+Maintainer: Kawashiro Nitori <nitori@kawashi.ro>
+Installed-Size: ${size}
+Depends: libc6
+Priority: optional
+Homepage: https://docs.aws.amazon.com
+Description: AWS Command Line Interface
+ The AWS Command Line Interface (CLI) is a unified tool to manage your AWS services.
+ With just one tool to download and configure, you can control multiple AWS services
+ from the command line and automate them through scripts.

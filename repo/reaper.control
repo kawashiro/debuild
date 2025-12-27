@@ -1,0 +1,12 @@
+Package: reaper
+Version: ${version}
+Architecture: amd64
+Maintainer: Kawashiro Nitori <nitori@kawashi.ro>
+Installed-Size: ${size}
+Depends: libc6
+Priority: optional
+Homepage: https://www.reaper.fm/index.php
+Description: REAPER - Digital Audio Workstation
+ REAPER is a complete digital audio production application for computers,
+ offering a full multitrack audio and MIDI recording, editing, processing,
+ mixing and mastering toolset.
