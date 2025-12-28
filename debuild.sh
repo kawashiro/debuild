@@ -35,6 +35,7 @@ mkdir -p "$WORKING_DIR"
 mkdir -p "$WORKING_DIR/out"
 
 n=1
+repo_updated=0
 for debuild_file in "${debuild_files[@]}"; do
     _filename="${debuild_file##*/}"
     package_name="${_filename%.*}"
@@ -50,6 +51,16 @@ for debuild_file in "${debuild_files[@]}"; do
     # Download & unpack sources on host machine
     status "[$n/${#debuild_files[@]}] Getting sources for $package_name ..."
     cd "$source_dir"
+    new_version=$("${package_name}__version-pre")
+    if [ -n "$new_version" ]; then
+        dest_file="$APT_REPO_DIR/${package_name}_${new_version}_amd64.deb"
+        if [ -f "$dest_file" ]; then
+            status "[$n/${#debuild_files[@]}] Package $package_name version $new_version already built, skipping ..."
+            ((n++))
+            continue
+        fi
+    fi
+
     "${package_name}__get-sources"
 
     status "[$n/${#debuild_files[@]}] Building package $package_name ..."
@@ -62,8 +73,14 @@ for debuild_file in "${debuild_files[@]}"; do
     "
 
     export version=$(cat "$source_dir/VERSION")
-    ready_deb_file="$done_dir/${package_name}_${version}_amd64.deb"
+    dest_file="$APT_REPO_DIR/${package_name}_${version}_amd64.deb"
+    if [ -f "$dest_file" ]; then
+        status "[$n/${#debuild_files[@]}] Package $package_name version $version already built, skipping rebuild ..."
+        ((n++))
+        continue
+    fi
 
+    ready_deb_file="$done_dir/${package_name}_${version}_amd64.deb"
     if [ -f "$ready_deb_file" ]; then
         status "[$n/${#debuild_files[@]}] Copying ready .deb for $package_name ..."
         cp "$ready_deb_file" "$WORKING_DIR/out/"
@@ -86,16 +103,21 @@ for debuild_file in "${debuild_files[@]}"; do
 
     cd "$PWD_0"
     status "[$n/${#debuild_files[@]}] Finished building $package_name."
+    repo_updated=1
     ((n++))
 done
 
-status "Copying packages to the repository ..."
-cd "$WORKING_DIR/out"
-rsync -avzh --no-g --progress ./* "$APT_REPO_DIR/"
-cd "$PWD_0"
+if [ "$repo_updated" -eq 1 ]; then
+    status "Copying packages to the repository ..."
+    cd "$WORKING_DIR/out"
+    rsync -avzh --no-g --progress ./* "$APT_REPO_DIR/"
+    cd "$PWD_0"
 
-status "Updating repository metadata ..."
-"$SCRIPT_DIR/update-repo.sh"
+    status "Updating repository metadata ..."
+    "$SCRIPT_DIR/update-repo.sh"
+else
+    status "No new packages were built, repository update skipped."
+fi
 
 status "Cleaning up ..."
 docker run --rm -v "$WORKING_DIR":/del "debian:$DEBIAN_VER" sh -c "rm -r /del/*"

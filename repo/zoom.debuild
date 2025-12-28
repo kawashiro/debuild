@@ -1,5 +1,9 @@
 ZOOM__VERSION="6.7.0.6313"
 
+zoom__version-pre() {
+    echo "$ZOOM__VERSION"
+}
+
 zoom__get-sources() {
     curl -OL "https://cdn.zoom.us/prod/$ZOOM__VERSION/zoom_amd64.deb"
 }

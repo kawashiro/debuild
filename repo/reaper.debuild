@@ -1,6 +1,13 @@
-reaper__get-sources() {
+reaper__version-pre() {
     url=$(__reaper_get_url)
     echo "$url" > reaper_download_url.txt
+    ver=${url##*reaper}
+    ver=${ver%%_*}
+    echo "${ver:0:1}.${ver:1}"
+}
+
+reaper__get-sources() {
+    url=$(cat reaper_download_url.txt)
     curl -LO "$url"
     tar xJf *.tar.xz
 }

@@ -1,5 +1,9 @@
 IDEA__VERSION="2025.3.1"
 
+idea__version-pre() {
+    echo "$IDEA__VERSION"
+}
+
 idea__get-sources() {
     curl -OL "https://download.jetbrains.com/idea/idea-$IDEA__VERSION.tar.gz"
 }

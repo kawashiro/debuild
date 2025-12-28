@@ -1,3 +1,7 @@
+xvpn__version-pre() {
+    true
+}
+
 xvpn__get-sources() {
     curl -O https://app.xvpncdn.com/4dzfjmwrjw/cli_install.sh
     chmod +x cli_install.sh

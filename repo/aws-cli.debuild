@@ -1,3 +1,7 @@
+aws-cli__version-pre() {
+    true
+}
+
 aws-cli__get-sources() {
     curl -O https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip
     unzip ./awscli-exe-linux-x86_64.zip

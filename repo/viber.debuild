@@ -1,5 +1,8 @@
+viber__version-pre() {
+    true
+}
+
 viber__get-sources() {
-    download_url=$(curl -s https://tixati.com/linux | grep amd64.deb | awk -F'"' '{ print $12 }' | sed -e 's/\.asc$//')
     curl -O https://download.cdn.viber.com/cdn/desktop/Linux/viber.deb
 }
 
