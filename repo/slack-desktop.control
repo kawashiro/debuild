@@ -1,4 +1,4 @@
-Package: slack
+Package: slack-desktop
 Version: ${version}
 Architecture: amd64
 Maintainer: Kawashiro Nitori <nitori@kawashi.ro>

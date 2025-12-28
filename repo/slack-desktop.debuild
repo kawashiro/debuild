@@ -1,4 +1,4 @@
-slack__get-sources() {
+slack-desktop__get-sources() {
     url=$(curl -s 'https://slack.com/downloads/instructions/linux?ddl=1&build=rpm' | grep 'Try again' | sed -e 's/.*href="\(.*\?\)">Try again.*/\1/')
     echo "$url" > download_url.txt
     curl -LO "$url"
@@ -6,12 +6,12 @@ slack__get-sources() {
     cpio -i --make-directories < *.cpio
 }
 
-slack__build() {
+slack-desktop__build() {
     destination="$1"
     rm -r ./usr/lib/.build-id
     cp -r ./usr "$destination/"
 }
 
-slack__version() {
+slack-desktop__version() {
     cat /src/download_url.txt | awk -F/ '{ print $7 }'
 }
