@@ -1,0 +1,16 @@
+viber__get-sources() {
+    download_url=$(curl -s https://tixati.com/linux | grep amd64.deb | awk -F'"' '{ print $12 }' | sed -e 's/\.asc$//')
+    curl -O https://download.cdn.viber.com/cdn/desktop/Linux/viber.deb
+}
+
+viber__build() {
+    destination="$1"
+    cp viber.deb "$destination/viber_$(viber__version)_amd64.deb"
+}
+
+viber__version() {
+    if [ ! -f /src/DEBIAN/control ]; then
+        dpkg -e /src/viber.deb
+    fi
+    cat /src/DEBIAN/control | awk '/Version/ { print $2 }'
+}

@@ -1,0 +1,21 @@
+default_stages: [ pre-commit ]
+exclude: build/
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0
+    hooks:
+      - id: check-merge-conflict
+        name: Check that merge conflicts are not being committed
+      - id: end-of-file-fixer
+        name: Make sure that there is an empty line at the end
+      - id: trailing-whitespace
+        name: Remove trailing whitespace at end of line
+      - id: fix-byte-order-marker
+        name: Remove utf-8 byte order marker
+      - id: check-executables-have-shebangs
+        name: Ensure that (non-binary) executables have a shebang
+      - id: check-shebang-scripts-are-executable
+        name: Ensure that (non-binary) files with a shebang are executable
+      - id: mixed-line-ending
+        name: Replaces mixed line ending
+        args: [ --fix=lf ]

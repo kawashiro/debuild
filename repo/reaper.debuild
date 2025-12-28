@@ -1,5 +1,6 @@
 reaper__get-sources() {
     url=$(__reaper_get_url)
+    echo "$url" > reaper_download_url.txt
     curl -LO "$url"
     tar xJf *.tar.xz
 }
@@ -16,9 +17,7 @@ reaper__build() {
 }
 
 reaper__version() {
-    apt-get update >/dev/null 2>&1
-    apt-get install -y curl >/dev/null 2>&1
-    url=$(__reaper_get_url)
+    url=$(cat /src/reaper_download_url.txt)
     ver=${url##*reaper}
     ver=${ver%%_*}
     echo "${ver:0:1}.${ver:1}"

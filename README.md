@@ -38,7 +38,7 @@ gpg --export -a HASH > /path/to/repo/root/repo.gpg
 2. Create debuild.conf file in the script's directory:
 ```bash
 # Provide the path to your local repository directory and GPG key for signing the packages.
-export REPO_DIR=""
+export APT_REPO_DIR=""
 export GPG_KEY=""
 ```
 3. Run the script to build and publish packages:
@@ -53,4 +53,4 @@ wget -qO - http://your-repo/xxxxx.gpg | gpg --dearmor -o /usr/share/keyrings/you
 echo "deb [signed-by=/usr/share/keyrings/your-repo-keyring] http://your-repo/ ./" > /etc/apt/sources.list.d/your-repo.list
 ```
 
-5. And that's it! 
+5. And that's it!

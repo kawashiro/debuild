@@ -1,0 +1,22 @@
+xvpn__get-sources() {
+    curl -O https://app.xvpncdn.com/4dzfjmwrjw/cli_install.sh
+    chmod +x cli_install.sh
+}
+
+xvpn__build() {
+    destination="$1"
+    apt-get update
+    apt-get install -y curl
+    bash ./cli_install.sh
+    mkdir -p "$destination/etc/systemd/system"
+    cat /etc/systemd/system/xvpn.service | sed -e 's/\/usr\/local/\/usr/mg' > "$destination/etc/systemd/system/xvpn.service"
+    mkdir -p "$destination/usr/bin"
+    cp /usr/local/bin/xvpn "$destination/usr/bin/"
+    mkdir -p "$destination/var/lib/xvpn"
+    mkdir -p "$destination/usr/share/man/man1"
+    cp /usr/local/share/man/man1/xvpn* "$destination/usr/share/man/man1/"
+}
+
+xvpn__version() {
+    xvpn | awk '/Version/ { print $2 }' | tr _ -
+}

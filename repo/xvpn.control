@@ -1,0 +1,12 @@
+Package: xvpn
+Version: ${version}
+Architecture: amd64
+Maintainer: Kawashiro Nitori <nitori@kawashi.ro>
+Installed-Size: ${size}
+Depends: libc6
+Priority: optional
+Homepage: https://xvpn.io/
+Description: X-VPN - Secure VPN Service
+ X-VPN is a secure VPN service that provides privacy and security for your online activities.
+ With X-VPN, you can browse the internet anonymously, protect your data from hackers,
+ and access geo-restricted content with ease.

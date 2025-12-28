@@ -1,0 +1,13 @@
+Package: slack
+Version: ${version}
+Architecture: amd64
+Maintainer: Kawashiro Nitori <nitori@kawashi.ro>
+Installed-Size: ${size}
+Depends: libc6
+Priority: optional
+Homepage: https://slack.com/
+Description: Slack - Collaboration Hub
+ Slack is a collaboration hub that connects your organization — all the pieces and the people —
+ so you can get things done. From the small business to the Fortune 100, millions of people
+ around the world use Slack to bring the right people, information, and tools together
+ to work as one unified team.
