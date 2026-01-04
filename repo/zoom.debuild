@@ -1,4 +1,4 @@
-ZOOM__VERSION="6.7.0.6313"
+ZOOM__VERSION="6.7.2.6498"
 
 zoom__version-pre() {
     echo "$ZOOM__VERSION"
