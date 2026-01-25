@@ -1,4 +1,4 @@
-IDEA__VERSION="2025.3.1.1"
+IDEA__VERSION="2025.3.2"
 
 idea__version-pre() {
     echo "$IDEA__VERSION"
