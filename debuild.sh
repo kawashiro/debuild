@@ -27,10 +27,6 @@ if [ ${#debuild_files[@]} -eq 0 ]; then
     exit 1
 fi
 
-if [ -d "$WORKING_DIR" ]; then
-    docker run --rm -v "$WORKING_DIR":/del "debian:$DEBIAN_VER" sh -c "rm -r /del/*"
-    rmdir "$WORKING_DIR"
-fi
 mkdir -p "$WORKING_DIR"
 mkdir -p "$WORKING_DIR/out"
 
@@ -49,6 +45,14 @@ for debuild_file in "${debuild_files[@]}"; do
     source "$debuild_file"
 
     # Download & unpack sources on host machine
+    built_file=$(find "$WORKING_DIR/out/" -type f -name "${package_name}_*_amd64.deb")
+    if [ -f "$built_file" ]; then
+        status "[$n/${#debuild_files[@]}] Already built $package_name"
+        ((n++))
+        repo_updated=1
+        continue
+    fi
+
     status "[$n/${#debuild_files[@]}] Getting sources for $package_name ..."
     cd "$source_dir"
     new_version=$("${package_name}__version-pre")
