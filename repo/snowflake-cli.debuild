@@ -1,0 +1,25 @@
+snowflake-cli__version-pre() {
+    version=$(curl https://sfc-repo.snowflakecomputing.com/snowflake-cli/linux_x86_64/index.html \
+        | grep /index.html \
+        | sed -e 's/\/<\/a>$//;s/.*>//' \
+        | sort -V \
+        | tail -n1)
+    echo "https://sfc-repo.snowflakecomputing.com/snowflake-cli/linux_x86_64/$version/snowflake-cli-$version.x86_64.deb" > download_url.txt
+    echo "$version" > version.txt
+    echo "$version"
+}
+
+snowflake-cli__get-sources() {
+    download_url=$(cat download_url.txt)
+    version=$(cat version.txt)
+    curl -L -o "snowflake-cli_${version}_amd64.deb" "$download_url"
+}
+
+snowflake-cli__build() {
+    destination="$1"
+    cp *.deb "$destination/"
+}
+
+snowflake-cli__version() {
+    echo *.deb | awk -F'_' '{ print $2 }'
+}

@@ -1,0 +1,22 @@
+intel-level-zero-npu__version-pre() {
+    download_url=$(curl -H "Accept: application/vnd.github+json" -H "X-GitHub-Api-Version: 2026-03-10" https://api.github.com/repos/intel/linux-npu-driver/releases \
+        | jq -r '.[0].assets | map(select(.name | contains("ubuntu2404"))) | .[0].browser_download_url'
+    )
+    echo "$download_url" > download_url.txt
+    echo "$download_url" | awk -F/ '{ print $9 }' | sed -e 's/.*-v//;s/\.tar\.gz$//;s/-ubuntu\([0-9]\{2\}\)\([0-9]\{2\}\)/~ubuntu\1.\2/'
+}
+
+intel-level-zero-npu__get-sources() {
+    download_url=$(cat download_url.txt)
+    curl -LO "$download_url"
+}
+
+intel-level-zero-npu__build() {
+    destination="$1"
+    tar xvzf *.tar.gz
+    cp *.deb "$destination/"
+}
+
+intel-level-zero-npu__version() {
+    ls *.deb | head -n1 | awk -F'_' '{ print $2 }'
+}

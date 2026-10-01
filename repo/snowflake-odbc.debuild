@@ -1,0 +1,26 @@
+snowflake-odbc__version-pre() {
+    version=$(curl https://sfc-repo.snowflakecomputing.com/odbc/linux/index.html \
+        | grep /index.html \
+        | sed -e 's/\/<\/a>$//;s/.*>//' \
+        | grep -vEe '(latest|-rc)' \
+        | sort -V \
+        | tail -n1)
+    echo "https://sfc-repo.snowflakecomputing.com/odbc/linux/$version/snowflake-odbc-$version.x86_64.deb" > download_url.txt
+    echo "$version" > version.txt
+    echo "$version"
+}
+
+snowflake-odbc__get-sources() {
+    download_url=$(cat download_url.txt)
+    version=$(cat version.txt)
+    curl -L -o "snowflake-odbc_${version}_amd64.deb" "$download_url"
+}
+
+snowflake-odbc__build() {
+    destination="$1"
+    cp *.deb "$destination/"
+}
+
+snowflake-odbc__version() {
+    echo *.deb | awk -F'_' '{ print $2 }'
+}
